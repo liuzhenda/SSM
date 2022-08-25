@@ -8,7 +8,7 @@ public class daotest {
     public void testinsertusers(){
         //读取单元测试使用的mybatis配置文件
         String resource ="mybatisJunitTest.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        new
+        //InputStream inputStream = Resources.getResourceAsStream(resource);
+        //new
     }
 }

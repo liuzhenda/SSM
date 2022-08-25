@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/context
        https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--    1 组件扫描,因为service层和持久层已经由spring负责管理,所以springmvc仅需要扫描管理Controller即可-->
-    <context:component-scan base-package="vip.epss">
+    <context:component-scan base-package="zhenda_liu">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>

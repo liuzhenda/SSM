@@ -21,7 +21,7 @@
 
 <!--    </bean>-->
     <!--1 开启注解的扫描,使spring能够自动扫描到组件纳入到IOC容器中-->
-    <context:component-scan base-package="vip.epss">
+    <context:component-scan base-package="zhenda_liu">
         <!--        将service和持久层的bean交给spring管理,表现层的bean交给springmvc管理-->
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
@@ -83,7 +83,7 @@
     <aop:config>
         <!--        表达式的写法:   访问权限[可省略] 返回值类型(*表示所有的返回值) 包.子包.方法(参数)-->
         <aop:advisor advice-ref="transactionInterceptor"
-                     pointcut="execution(* vip.epss.service.impl.*ServiceImpl.*(..))"/>
+                     pointcut="execution(* zhenda_liu.service.impl.*ServiceImpl.*(..))"/>
     </aop:config>
 
 <!--    上传文件-->
