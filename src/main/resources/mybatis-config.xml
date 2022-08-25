@@ -10,7 +10,7 @@
 <!--   配置别名映射-->
     <typeAliases>
 <!--        默认情况下别名是类名的小写开头-->
-        <package name="zhendaliu.domain"/>
+        <package name="zhenda_liu.domain"/>
 <!--        <typeAlias type="zhendaliu.domain.User" alias="User"></typeAlias>-->
     </typeAliases>
 </configuration>
