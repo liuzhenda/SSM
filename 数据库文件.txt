@@ -1,0 +1,98 @@
+#sql语句都写在这
+
+drop database if exists huiyishi;
+create database if not exists huiyishi;
+
+use huiyishi;
+
+#部门表
+drop table if exists department;
+create table if not exists department(
+    did integer auto_increment comment'部门id',
+    name varchar(20) not null  unique comment'部门名称',
+    dupdatetime timestamp default current_timestamp on update current_timestamp,
+    primary key(`did`)
+)comment '部门表';
+
+#用户表
+drop table if exists users;
+create table if not exists users(
+    uid integer auto_increment comment'用户ID',
+    uname varchar(20) not null unique comment'用户名',
+    upsd varchar(128) not null comment'用户密码',
+    udid integer comment'用户所属部门id',
+    uupdatetime timestamp default current_timestamp on update current_timestamp,
+primary key (`uid`)
+)comment '用户表';
+#外键did-udid
+
+
+
+#管理员表
+drop table if exists admin;
+create table if not exists admin(
+    aid integer auto_increment comment'管理员id',
+    aname varchar(20) not null unique comment'管理员名',
+    apsd varchar(128) not null comment'管理员密码',
+    aupdatetime timestamp default current_timestamp on update current_timestamp,
+    primary key (`aid`)
+);
+
+#会议室表
+drop table if exists  room;
+create table if not exists room(
+    rid integer auto_increment comment'会议室id',
+    config varchar(80) comment'配置',
+    rdid integer comment'会议室所属部门id',
+    rupdatetime timestamp default current_timestamp on update current_timestamp,
+    primary key (`rid`)
+)comment'会议室表';
+#外键did-rdid
+
+
+#会议表
+drop table if exists  meeting;
+create table if not exists meeting(
+    mid integer auto_increment comment'会议号id',
+    mrid integer comment'会议所在会议室的id',
+    ouid integer not null comment'预约人的用户id',
+    startt datetime not null comment'会议开始时间',
+    ftime datetime not null comment'会议结束时间',
+    state integer not null comment'会议是否处理通过',
+    mupdatetime timestamp default current_timestamp on update current_timestamp,
+    primary key (`mid`)
+)comment'会议表';
+#外键rid-mrid
+alter table users add constraint `fk_users_to_department` foreign key (`udid`) references department(`did`);
+alter table room add constraint `fk_room_to_department` foreign key (`rdid`) references department(`did`);
+alter table meeting add constraint `fk_meeting_to_room` foreign key (`mrid`) references room(`rid`);
+alter table meeting add constraint `fk_meeting_to_users` foreign key (`ouid`) references users(`uid`);
+
+#向管理员表输入信息
+insert into admin (aname, apsd) values ('xuetong','123456'),
+                                       ('zhangsan','root'),
+                                       ('李四','654321');
+
+#向部门表输入信息
+insert into department (dname) values ('财政部'),
+                                      ('技术部'),
+                                      ('后勤部'),
+                                      ('人事部'),
+                                      ('行政部');
+
+#用户表 部门信息不为空
+insert into users (uname, upsd, udid) VALUES ('wangjing','123456','1'),
+                                             ('xiaoming','987654','2');
+
+#用户表 部门信息为空
+insert into users (uname, upsd) VALUES ('xuetong2','654321'),
+                                       ('wangwu555','963852');
+
+#用户表外键测试： (经过测试，外键测试成功)
+#insert into users (uname, upsd, udid) value ('hello','haha','6');
+
+#会议室表插入
+insert into room (rid, config, rdid) values ('202','20-30人会议室，白板','1'),
+                                            ('101','60人会议室 投影仪','2'),
+                                            ('304','20人小型会议室，无多余配置','3'),
+                                            ('502','120人大型会议室，多媒体','4');
