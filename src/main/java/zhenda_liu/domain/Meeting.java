@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+//该文件注意第24行
 public class Meeting implements Serializable {
     private Integer mid;
 
@@ -17,7 +18,8 @@ public class Meeting implements Serializable {
 
     private Integer state;
 
-    //用户和会议的多对多关系，相对应的用户那边也有一个类似的
+    //8.26经过对数据库插入数据后了解到用户和会议并不存在多对多的关系，这里存在问题，但是实际使用下来可能没有影响，故对其进行保留
+    //8.25用户和会议的多对多关系，相对应的用户那边也有一个类似的
     private List<Users> users;
 
     private Date mupdatetime;
