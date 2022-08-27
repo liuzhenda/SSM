@@ -16,8 +16,6 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-
-
     @RequestMapping(value = "/register")
     public void RegisterUsers(Users users){
         boolean b = userService.regNewUser(users);

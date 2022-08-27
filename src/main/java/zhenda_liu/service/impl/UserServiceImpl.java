@@ -1,5 +1,6 @@
 package zhenda_liu.service.impl;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import zhenda_liu.dao.UsersMapper;
@@ -10,8 +11,10 @@ import zhenda_liu.service.UserService;
 import java.util.List;
 
 @Service(value = "usersService")
+@MapperScan("zhenda_liu.dao")
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UsersMapper usersMapper;
 
     //对员工注册函数的实现
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService {
         UsersExample usersExample = new UsersExample();
         UsersExample.Criteria criteria = usersExample.createCriteria();
         criteria.andUnameEqualTo(users.getUname());
+        System.out.println("++++++++++++++++");
+        System.out.println(users.getUname());
+        System.out.println(users.getUpsd());
 
         List<Users> userses = usersMapper.selectByExample(usersExample);
         if(userses.size() > 0){
