@@ -1,0 +1,47 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--
+    此处已经经过刘振达进行调整，需要注意，第16行代码需要按照自己的情况进行调整
+    逆向工程的配置文件， 主要用于生成对应的接口和映射
+-->
+<generatorConfiguration>
+    <context id="mysql" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+<!--        数据库连接，根据自己的情况改写-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3310/huiyishi?serverTimezone=UTC&amp;unicode=true&amp;characterEncoding=UTF-8" userId="root" password="123456" />
+<!--    指定javaBean的生成位置-->
+        <javaModelGenerator targetPackage="zhenda_liu.domain" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaModelGenerator>
+<!--        指定mapper的接口文件的位置-->
+        <sqlMapGenerator targetPackage="zhenda_liu.dao" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="zhenda_liu.dao" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+<!--        指定数据表的生成策略-->
+<!--        <table tableName="department" domainObjectName="Department" />-->
+<!--        <table tableName="employee" domainObjectName="Employee" />-->
+<!--        <table tableName="info" domainObjectName="Info" />-->
+<!--        <table tableName="project" domainObjectName="Project" />-->
+<!--        多对多映射的中间表无需生成对应的实体类 -->
+        <!--经过实际测试，这里如果注释掉会出现context的错误，应该不影响正常使用，不要忘记生成完成后注释掉以下代码-->
+
+        <!--<table tableName="admin" domainObjectName="Admin" />
+        <table tableName="department" domainObjectName="Department" />
+        <table tableName="room" domainObjectName="Room" />
+        <table tableName="users" domainObjectName="Users" />
+        <table tableName="meeting" domainObjectName="Meeting" />-->
+
+
+
+    </context>
+</generatorConfiguration>

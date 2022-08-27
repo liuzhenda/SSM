@@ -7,6 +7,7 @@
     <groupId>zhenda_liu</groupId>
     <artifactId>SSM</artifactId>
     <version>0.6-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <!--  用户配置开始,不建议修改，可以添加-->
     <properties>
