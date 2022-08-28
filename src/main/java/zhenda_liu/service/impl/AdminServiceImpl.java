@@ -14,7 +14,7 @@ public class AdminServiceImpl implements AdminService {
     //此业务是添加一个新管理员
     @Override
     public boolean regNewAdmin(Admin admin) {
-        //先查询是否存在该管理员
+        //查询是否存在该管理员
         //mybatis生成的条件实体类的用法
         AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("存在此用户");
             return false;
         } else {
-            //再将信息插入到 数据库中
+            //将信息插入到数据库中
             int i = adminMapper.insertSelective(admin);
             System.out.println("成功添加了" + i + "个 admin");
             return false;
