@@ -3,7 +3,9 @@ package zhenda_liu.service.impl;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import zhenda_liu.dao.RoomMapper;
 import zhenda_liu.dao.UsersMapper;
+import zhenda_liu.domain.Room;
 import zhenda_liu.domain.Users;
 import zhenda_liu.domain.UsersExample;
 import zhenda_liu.service.UserService;
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UsersMapper usersMapper;
 
+    @Autowired
+    private RoomMapper roomMapper;
+
     //对员工注册函数的实现
 
     @Override
@@ -24,8 +29,7 @@ public class UserServiceImpl implements UserService {
         UsersExample usersExample = new UsersExample();
         UsersExample.Criteria criteria = usersExample.createCriteria();
         criteria.andUnameEqualTo(users.getUname());
-        System.out.println("++++++++++++++++");
-        System.out.println(users.getUname());
+        System.out.println("---==--===-=-=-=-=-=-=");
         System.out.println(users.getUpsd());
 
         List<Users> userses = usersMapper.selectByExample(usersExample);
@@ -57,8 +61,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Room> GetAllRooms() {
+        List<Room> rooms = roomMapper.selectByExample(null);
+        return rooms;
+    }
+
+    @Override
     public List<Users> GetAllUsers() {
-        List<Users> userses = usersMapper.selectByExample(null);
-        return userses;
+        return null;
     }
 }
