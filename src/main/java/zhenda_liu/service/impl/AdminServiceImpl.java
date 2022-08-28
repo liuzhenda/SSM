@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("存在此用户");
             return false;
         } else {
-            //将信息插入到数据库中
+            //将信息插入到数据库
             int i = adminMapper.insertSelective(admin);
             System.out.println("成功添加了" + i + "个 admin");
             return false;
