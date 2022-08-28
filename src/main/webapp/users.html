@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议室预定系统</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
 </head>
+<!--该文件用于用户界面的操作-->
+<div style="height: 150px;"></div>
+
 <body>
+    <table align="center">
+        <tr>
+            <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议预定</button></td>
+            <td style="width: 100px;"></td>
+            <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议室查询</button></td>
+            <td style="width: 100px;"></td>
+            <td><button type="submit" class="btn btn-primary" style="width: 150px;">修改个人信息</button></td>
+        </tr>
+    </table>
+
+    <div style="height: 30px;"></div>
+    <table class="table table-primary table-hover table-striped" align="center" style="width: 1000px;text-align: center">
+        <thead>
+        <tr>
+            <th>会议室</th>
+            <th>会议室配置</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody  id="display">
+        </tbody>
+    </table>
+    
+
+
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+    <script>
+        //页面加载时
+        $(document).ready(function () {
+            //1 访问所有员工数据
+            $.ajax({
+                url:"Users/list",   //显示会议室信息
+                dataType:"json",
+                success:function(ret){
+                    console.log(ret);
+                    //将数据渲染到页面中
+                    // $("#dis").text(ret.dataZone.emplist[0].ename);
+                    $("#display").empty();//先清空原始内容
+                    let rooms = ret.dataZone.roomslist;
+                    //开始循环遍历
+                    $.each(rooms,function(index,item){
+                        //遍历一次创建一个行
+                        var eTr = $("<tr></tr>");
+                        //依次构建单元格td
+                        var rid = $('<td></td>').text(item.rid);
+                        var config = $('<td></td>').text(item.config);
+                        var applyTd = $('<td></td>').html('<button class="btn btn-info">申请</button>');
+                        //每次循环将创建的td追加到tr中
+                        eTr.append(rid).append(config).append(applyTd);
+                        //每次循环将创建的tr追加到tbody中
+                        $("#display").append(eTr); // 每次修改前端页面都需要重启服务器太浪费时间， 可以考虑热部署
+                    });
+
+                },
+                error:function (eno) {
+                    console.log(eno);
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
