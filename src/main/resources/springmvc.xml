@@ -28,7 +28,9 @@
 
     <mvc:resources mapping="/css/**" location="/css/"/>
     <mvc:resources mapping="/js/**" location="/js/"/>
-    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/image/**" location="/image/"/>
+
+    <mvc:resources mapping="/*.html" location="/"/>
 
     <!--    5 配置拦截器-->
     <!--    <mvc:interceptors>-->
@@ -75,7 +77,8 @@
         <!-- 注入 -->
         <property name="converters">
             <!-- 注册自己定义的字符串转日期类型的转换器 -->
-            <bean class="vip.epss.utils.StringToDateConvert"></bean>
+            <bean class="zhenda_liu.utils.StringToDateConvert"></bean>
+
         </property>
     </bean>
     <!--    开启注解支持,使自定义的转换器生效-->

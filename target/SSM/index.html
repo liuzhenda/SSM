@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议室预定系统</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+</head>
+<div style="height: 200px;"></div>
+
+
+<body>
+
+
+<h4 align="center">会议室预定系统</h4>
+<div>
+    <form action="Users/login">
+        <table border="0" cellspacing="" cellpadding="" align="center">
+            <tr style="height:100px;">
+                <td style="width: 60px; ;"><label for="uname" align="center">用户名:</label></td>
+                <td><input type="text" class="form-control" placeholder="请输入您的用户名" name="uname" id="uname" style="width: 400px;"></td>
+            </tr>
+
+            <tr>
+                <td><label for="upsd">密码:</label></td>
+                <td><input type="password" class="form-control" placeholder="请输入您的密码" name="upsd" id="upsd" style="width: 400px;"></td>
+            </tr>            
+        </table>
+
+        <table border="0" cellspacing="" cellpadding="" align="center">
+            <tr>
+                <td style="width: 450px;">
+                    <div class="form-group form-check" align="right">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"> 记住密码
+                    </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        
+        <table border="0" cellspacing="" cellpadding="" align="center">
+            <tr>
+                <td><button type="submit" class="btn btn-primary" style="width: 350px;">登录</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<table align="center" style="height: 50px;">
+    <tr>
+        <td style="width: 500px;"></td>
+        <td><label type="submit"  style="width: 100px;margin-right: 20%;" onclick="window.location.href='../webapp/register.html'">注册</label></td>
+    </tr>
+</table>
+
+
+
+
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+</body>
+</html>

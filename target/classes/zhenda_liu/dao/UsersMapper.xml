@@ -208,11 +208,11 @@
       uupdatetime = #{uupdatetime,jdbcType=TIMESTAMP}
     where uid = #{uid,jdbcType=INTEGER}
   </update>
-  <resultMap id="BaseResultMap" type="zhenda_liu.domain.Users">
+<!--&lt;!&ndash;  <resultMap id="BaseResultMap" type="zhenda_liu.domain.Users">
     <result column="USER" jdbcType="CHAR" property="user" />
     <result column="CURRENT_CONNECTIONS" jdbcType="BIGINT" property="currentConnections" />
     <result column="TOTAL_CONNECTIONS" jdbcType="BIGINT" property="totalConnections" />
-  </resultMap>
+  </resultMap>&ndash;&gt;
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -274,7 +274,7 @@
   <sql id="Base_Column_List">
     USER, CURRENT_CONNECTIONS, TOTAL_CONNECTIONS
   </sql>
-  <select id="selectByExample" parameterType="zhenda_liu.domain.UsersExample" resultMap="BaseResultMap">
+&lt;!&ndash;  <select id="selectByExample" parameterType="zhenda_liu.domain.UsersExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -287,7 +287,7 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
-  </select>
+  </select>&ndash;&gt;
   <delete id="deleteByExample" parameterType="zhenda_liu.domain.UsersExample">
     delete from users
     <if test="_parameter != null">
@@ -356,5 +356,5 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
-  </update>
+  </update>-->
 </mapper>

@@ -38,8 +38,8 @@
         <!--<table tableName="admin" domainObjectName="Admin" />
         <table tableName="department" domainObjectName="Department" />
         <table tableName="room" domainObjectName="Room" />
-        <table tableName="users" domainObjectName="Users" />-->
-        <table tableName="meeting" domainObjectName="Meeting" />
+        <table tableName="users" domainObjectName="Users" />
+        <table tableName="meeting" domainObjectName="Meeting" />-->
 
 
 
