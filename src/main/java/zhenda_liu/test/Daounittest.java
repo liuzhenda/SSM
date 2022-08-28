@@ -12,7 +12,10 @@ import zhenda_liu.domain.Admin;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
 /*
 * dao层单元测试，在普通方法上添加  @Test注解
 * */
@@ -30,7 +33,10 @@ public class Daounittest {
         Admin admin = adminMapper.selectByPrimaryKey(4);
         System.out.println(admin);
     }
-
+    //还没写完不要改，这是我自己新建的文件夹
+    //还没写完不要改，这是我自己新建的文件夹
+    //还没写完不要改，这是我自己新建的文件夹
+    //还没写完不要改，这是我自己新建的文件夹
 //所有
     @Test
     public void testSelectAlladmin() throws IOException {
@@ -47,3 +53,8 @@ public class Daounittest {
         System.out.println(admins);
     }
 }
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
+//还没写完不要改，这是我自己新建的文件夹
