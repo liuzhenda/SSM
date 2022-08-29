@@ -3,11 +3,10 @@ package zhenda_liu.service.impl;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import zhenda_liu.dao.DepartmentMapper;
 import zhenda_liu.dao.RoomMapper;
 import zhenda_liu.dao.UsersMapper;
-import zhenda_liu.domain.Room;
-import zhenda_liu.domain.Users;
-import zhenda_liu.domain.UsersExample;
+import zhenda_liu.domain.*;
 import zhenda_liu.service.UserService;
 
 import java.util.List;
@@ -21,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoomMapper roomMapper;
+
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
     //对员工注册函数的实现
 
@@ -61,13 +63,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Room> GetAllRooms() {
-        List<Room> rooms = roomMapper.selectByExample(null);
-        return rooms;
+    public List<Room> GetSelectRooms(Users users) {
+        if(users.getUdid() == null){
+            List<Room> rooms = roomMapper.selectByExample(null);
+            return rooms;
+        }
+        else{
+            RoomExample roomExample = new RoomExample();
+            RoomExample.Criteria criteria_room = roomExample.createCriteria();
+            criteria_room.andRdidEqualTo(users.getUdid());
+            List<Room> rooms = roomMapper.selectByExample(roomExample);
+            return rooms;
+        }
     }
 
     @Override
     public List<Users> GetAllUsers() {
         return null;
+    }
+
+    @Override
+    public List<Department> GetAllDepartments() {
+        List<Department> departments = departmentMapper.selectByExample(null);
+        return departments;
+    }
+
+    @Override
+    public Users GetAllUserInfo(Users users) {
+        UsersExample usersExample = new UsersExample();
+        UsersExample.Criteria criteria = usersExample.createCriteria();
+        criteria.andUnameEqualTo(users.getUname()).andUpsdEqualTo(users.getUpsd());
+        List<Users> userses= usersMapper.selectByExample(usersExample);
+        Users ret_users = userses.get(0);
+        System.out.println("=====这是impl======");
+        System.out.println(ret_users);
+        return ret_users;
+    }
+
+    @Override
+    public Room GetSelectRoomsByRid(int rid) {
+        RoomExample roomExample = new RoomExample();
+        RoomExample.Criteria criteria_room = roomExample.createCriteria();
+        criteria_room.andRidEqualTo(rid);
+        List<Room> rooms = roomMapper.selectByExample(roomExample);
+        Room room = rooms.get(0);
+        return room;
     }
 }
