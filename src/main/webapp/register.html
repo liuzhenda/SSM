@@ -30,9 +30,18 @@
 
             <tr style="height: 20px;"></tr>
 
-            <tr>
+            <!--<tr>
                 <td><label for="udid">部门:</label></td>
                 <td><input type="text" class="form-control" placeholder="部门(未知可以为空)" name="udid" id="udid" style="width: 400px;"></td>
+            </tr>-->
+
+            <tr>
+                <td><label for="dname">部门:</label></td>
+                <td>
+                    <select id="dname" style="width: 400px;height: 38px" name="udid">
+                        <option value="null">---暂定---
+                    </select>
+                </td>
             </tr>
         </table>
 
@@ -56,6 +65,33 @@
 
 <script src="js/jquery-3.3.1.js"></script>
 <script src="js/bootstrap.js"></script>
+
+<script>
+    //页面加载时
+    $(document).ready(function () {
+        //1 访问所有员工数据
+        $.ajax({
+            url:"Users/list_Department",   //显示会议室信息
+            dataType:"json",
+            success:function(ret){
+                console.log(ret);
+                //将数据渲染到页面中
+                // $("#dis").text(ret.dataZone.emplist[0].ename);
+                $("#dname").empty();//先清空原始内容
+                $("#dname").append('<option value="null">---暂定---</option>')
+                let departments = ret.dataZone.departmentslist;
+                //开始循环遍历
+                $.each(departments,function(index,item){
+                    $("#dname").append('<option value='+item.did+'>'+ item.dname + '</option>'); // 每次修改前端页面都需要重启服务器太浪费时间， 可以考虑热部署
+                });
+
+            },
+            error:function (eno) {
+                console.log(eno);
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
