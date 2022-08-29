@@ -5,8 +5,19 @@
     <title>会议室预定系统</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
 </head>
+
+<header class="container-fluid bg-primary text-white" style="height: 100px;">
+    <div style="height: 20px"></div>
+    <h2 align="center">会议室预定系统</h2>
+    <div style="text-align: right">
+        <div id="user_name" style="float: right"></div>
+        <div id="user_div" style="float: right">会议室预定系统</div>
+
+    </div>
+
+</header>
 <!--该文件用于用户界面的操作-->
-<div style="height: 150px;"></div>
+<div style="height: 60px;"></div>
 
 <body>
     <table align="center">
@@ -31,6 +42,56 @@
         <tbody  id="display">
         </tbody>
     </table>
+
+
+    <div class="modal fade" id="updateModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">会议室申请信息</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <form method="post" action="${appContext}/employREST/opt" class="form-horizontal" role="form">
+                        <input type="hidden" name="_method" value="PUT"/>
+                        <div class="form-group">
+                            <label for="ApplyRid">会议室ID:</label>
+                            <input type="text" readonly="readonly" class="form-control" id="ApplyRid" name="mrid"
+                                   placeholder="eid"/>
+                        </div>
+                        <!--<div id="usernameTips"></div>-->
+                        <div class="form-group">
+                            <label for="ApplyOuid">申请人:</label>
+                            <input type="text" class="form-control" id="ApplyOuid" name="ouid" readonly="readonly"
+                                   placeholder="请输入申请人姓名"/>
+                        </div>
+                        <!--<div id="usernameTips"></div>-->
+                        <div class="form-group">
+                            <label for="ApplyStartt">会议预计开始时间:</label>
+                            <input type="datetime-local" class="form-control" id="ApplyStartt" name="startt"
+                                   placeholder="请输入会议预计开始时间">
+                        </div>
+                        <div></div>
+                        <div class="form-group">
+                            <label for="ApplyFtime">会议预计结束时间</label>
+                            <input type="datetime-local" class="form-control" id="ApplyFtime" name="ftime"
+                                   placeholder="请输入会议预计结束时间">
+                        </div>
+                        <div></div>
+                        <div class="form-group">
+                            <button id="updateEmployBtn" type="button" class="btn btn-block btn-primary">申请</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     
 
 
@@ -39,6 +100,27 @@
 
 
     <script>
+        var baseUrl = 'http://localhost:8080/SSM_war/users/';
+
+        function updateForm(room) {
+            //打开模态框
+            $("#updateModal").modal({backdrop: "static"});
+            //将表单中原有数据清空
+            $("#updateModal form").get(0).reset();
+            //从服务器获取信息填入修改表单中
+            $.ajax({
+                url: room.target.href,
+                type: "GET",
+                success: function (result) {
+                    console.log(result);
+                    $("#ApplyRid").val(result.rid);
+                    $("#ApplyOuid").val(document.getElementById("user_name").innerText);
+                },
+                error: function () {
+                }
+            });
+            return false;//取消超链接的默认跳转
+        }
         //页面加载时
         $(document).ready(function () {
             //1 访问所有员工数据
@@ -53,18 +135,42 @@
                     let rooms = ret.dataZone.roomslist;
                     //开始循环遍历
                     $.each(rooms,function(index,item){
+                        let commonId = item.rid
                         //遍历一次创建一个行
                         var eTr = $("<tr></tr>");
                         //依次构建单元格td
                         var rid = $('<td></td>').text(item.rid);
                         var config = $('<td></td>').text(item.config);
-                        var applyTd = $('<td></td>').html('<button class="btn btn-info">申请</button>');
+                        /*var applyTd = $('<td></td>').html('<a class="upBtn btn btn-info btn-sm" href="${baseUrl}opt/${commonId}">修改</a>');*/
+                        $(document).on("click", ".upBtn", updateForm);
                         //每次循环将创建的td追加到tr中
-                        eTr.append(rid).append(config).append(applyTd);
+                        eTr.append(rid).append(config).append(`<td><a class="upBtn btn btn-info btn-sm" href="http://localhost:8080/SSM_war/Users/opt/${commonId}">申请</a></td>`);
                         //每次循环将创建的tr追加到tbody中
                         $("#display").append(eTr); // 每次修改前端页面都需要重启服务器太浪费时间， 可以考虑热部署
                     });
 
+                },
+                error:function (eno) {
+                    console.log(eno);
+                }
+            });
+        });
+    </script>
+
+    <!--该script已经无用，仅可用于浏览器后台控制台查看后台发送来的用户登录信息-->
+    <script type="text/javascript">
+        //页面加载时
+        $(document).ready(function () {
+            //1 访问所有员工数据
+            $.ajax({
+                url:"Users/Keep_Login",   //登录信息
+                dataType:"json",
+                success:function(ret){
+                    console.log(ret);
+                    var div1 = document.getElementById("user_div");
+                    var div2 = document.getElementById("user_name");
+                    div1.innerText="欢迎回来，";
+                    div2.innerText=ret.uname;
                 },
                 error:function (eno) {
                     console.log(eno);
