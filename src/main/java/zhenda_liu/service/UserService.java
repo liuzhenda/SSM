@@ -1,5 +1,6 @@
 package zhenda_liu.service;
 
+import zhenda_liu.domain.Department;
 import zhenda_liu.domain.Room;
 import zhenda_liu.domain.Users;
 
@@ -17,7 +18,13 @@ public interface UserService {
     public List<Users> GetAllUsers();
 
     //获取所有会议室数据
-    public List<Room> GetAllRooms();
+    public List<Room> GetSelectRooms(Users users);
+
+    public Room GetSelectRoomsByRid(int rid);
+
+    public List<Department> GetAllDepartments();
+
+    public Users GetAllUserInfo(Users users);
 
     //修改一个员工数据
 
