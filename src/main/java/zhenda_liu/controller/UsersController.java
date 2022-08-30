@@ -142,6 +142,14 @@ public class UsersController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/JumpToAdmin")
+    public ModelAndView JumpToAdmin(){
+        ModelAndView modelAndView = new ModelAndView();
+        System.out.println("------------------------------");
+        modelAndView.setViewName("redirect:../admin.html");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/list_Department")
     @ResponseBody
     public MessageAndData list_Department(){
