@@ -1,9 +1,11 @@
 package zhenda_liu.service.impl;
 
+import org.apache.ibatis.jdbc.Null;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import zhenda_liu.dao.DepartmentMapper;
+import zhenda_liu.dao.MeetingMapper;
 import zhenda_liu.dao.RoomMapper;
 import zhenda_liu.dao.UsersMapper;
 import zhenda_liu.domain.*;
@@ -23,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private DepartmentMapper departmentMapper;
+
+    @Autowired
+    private MeetingMapper meetingMapper;
 
     //对员工注册函数的实现
 
@@ -108,5 +113,74 @@ public class UserServiceImpl implements UserService {
         List<Room> rooms = roomMapper.selectByExample(roomExample);
         Room room = rooms.get(0);
         return room;
+    }
+
+    @Override
+    public Meeting InsertIntoMeetings(Meeting meeting){
+        MeetingExample meetingExample = new MeetingExample();
+        MeetingExample.Criteria criteria = meetingExample.createCriteria();
+        criteria.andMridEqualTo(meeting.getMrid());
+
+        List<Meeting> meetings = meetingMapper.selectByExample(meetingExample);
+        int i = 0;
+        int flag = 0;
+        int rem = 0;
+        for(i=0;i<meetings.size();i++){
+            flag = 0;
+            //判断时间是否重叠
+            if(meeting.getStartt().before(meetings.get(i).getFtime())&&meeting.getStartt().after(meetings.get(i).getStartt())){
+                flag = flag+1;
+                rem = i;
+            }
+            if (meeting.getFtime().before(meetings.get(i).getFtime())&&meeting.getFtime().after(meetings.get(i).getStartt())) {
+                flag = flag+2;
+                rem = i;
+            }
+            if(flag != 0)
+                break;
+        }
+        if(flag == 0){
+            System.out.println("this is insert");
+            System.out.println(meeting);
+            System.out.println(meeting.getFtime().getClass().toString());
+            System.out.println("meeting==="+meeting);
+            int sucess = meetingMapper.insertSelective(meeting);
+            System.out.println("插入了"+sucess);
+        }
+        System.out.println("1111");
+        Meeting meeting_ret = meetings.get(rem);
+        System.out.println("返回meeting_ret");
+        System.out.println(meeting_ret);
+        return meeting_ret;
+    }
+
+    @Override
+    public int GetUidByUname(String uname) {
+        UsersExample usersExample = new UsersExample();
+        UsersExample.Criteria criteria= usersExample.createCriteria();
+        criteria.andUnameEqualTo(uname);
+
+        List<Users> userses = usersMapper.selectByExample(usersExample);
+        return userses.get(0).getUid();
+    }
+
+    @Override
+    public List<Meeting> GetMeetingsByUid(Users users) {
+        MeetingExample meetingExample = new MeetingExample();
+        MeetingExample.Criteria criteria = meetingExample.createCriteria();
+        criteria.andOuidEqualTo(users.getUid());
+
+        List<Meeting> meetings = meetingMapper.selectByExample(meetingExample);
+        return meetings;
+    }
+
+    @Override
+    public int DeleteMeetingByMid(int mid) {
+        MeetingExample meetingExample = new MeetingExample();
+        MeetingExample.Criteria criteria = meetingExample.createCriteria();
+        criteria.andMidEqualTo(mid);
+
+        meetingMapper.deleteByExample(meetingExample);
+        return 0;
     }
 }

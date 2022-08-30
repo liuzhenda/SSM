@@ -3,15 +3,14 @@ package zhenda_liu.controller;
 
 import com.google.protobuf.Message;
 import com.google.protobuf.Value;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import zhenda_liu.domain.Department;
-import zhenda_liu.domain.Room;
-import zhenda_liu.domain.Users;
+import zhenda_liu.domain.*;
 import zhenda_liu.service.UserService;
 import zhenda_liu.utils.MessageAndData;
 
@@ -20,6 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 @Controller
@@ -83,6 +86,38 @@ public class UsersController {
         return roomslist;
     }
 
+    @RequestMapping(value = "/list_meeting")
+    @ResponseBody
+    public MessageAndData list_meeting(HttpServletRequest request){
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        HttpSession session = request.getSession();
+        Users users = (Users) session.getAttribute("USR_SESSION");
+        users = userService.GetAllUserInfo(users);
+        List<Meeting> meetings = userService.GetMeetingsByUid(users);
+        System.out.println("list_meeting-meetings:"+meetings);
+        List<ShowMeeting> showMeetings = new ArrayList<>();
+        for(int i = 0; i< meetings.size();i++){
+            ShowMeeting showMeeting = new ShowMeeting();
+            showMeeting.setMid(meetings.get(i).getMid());
+            showMeeting.setMrid(meetings.get(i).getMrid());
+            showMeeting.setStartt(simpleDateFormat.format(meetings.get(i).getStartt()));
+            showMeeting.setFtime(simpleDateFormat.format(meetings.get(i).getFtime()));
+            if(meetings.get(i).getState() == 0){
+                showMeeting.setState("审核中");
+            }else if (meetings.get(i).getState() == 1){
+                showMeeting.setState("通过");
+            }else if(meetings.get(i).getState() == 2){
+                showMeeting.setState("未通过");
+            }
+            showMeetings.add(showMeeting);
+        }
+        System.out.println("list_meeting-showmeetings:"+showMeetings);
+        MessageAndData meetinglist = MessageAndData.success().add("meetinglist",showMeetings);
+        return meetinglist;
+    }
+
+
     @RequestMapping(value = "/JumpToReigster")
     public ModelAndView JumpToRegister(){
         ModelAndView modelAndView = new ModelAndView();
@@ -96,6 +131,14 @@ public class UsersController {
         ModelAndView modelAndView = new ModelAndView();
         System.out.println("------------------------------");
         modelAndView.setViewName("redirect:../index.html");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/JumpToCancel")
+    public ModelAndView JumpToCancel(){
+        ModelAndView modelAndView = new ModelAndView();
+        System.out.println("------------------------------");
+        modelAndView.setViewName("redirect:../cancel.html");
         return modelAndView;
     }
 
@@ -127,6 +170,47 @@ public class UsersController {
 
         System.out.println(room);
         return room;
+    }
+
+    @RequestMapping(value = "/opt")
+    @ResponseBody
+    public MessageAndData InsertMeeting(Middle_Meeting middle_meeting) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Meeting meeting = new Meeting(); //建立一个会议的实体类用于向数据库中插入信息
+        meeting.setMrid(middle_meeting.getMrid());
+        meeting.setOuid(userService.GetUidByUname(middle_meeting.getOuname()));
+        meeting.setStartt(formatter.parse(middle_meeting.getStartt().replace("T"," ")));
+        meeting.setFtime(formatter.parse(middle_meeting.getFtime().replace("T"," ")));
+        meeting.setState(0);  //会议室状态设置为审核中
+        System.out.println(meeting);
+        if(formatter.parse(middle_meeting.getStartt().replace("T"," ")).before(formatter.parse(middle_meeting.getFtime().replace("T"," ")))){
+            Meeting meeting_ret = userService.InsertIntoMeetings(meeting);
+
+            System.out.println(meeting_ret);
+            if(meeting_ret.getState() == 0){
+                MessageAndData messageAndData = MessageAndData.success().add("test","申请成功");
+                return messageAndData; 
+            } else if (meeting_ret.getState() == 1) {
+                MessageAndData messageAndData = MessageAndData.error().add("info","申请失败，原因：开始时间与已有的记录冲突");
+                messageAndData.add("meeting",meeting_ret);
+                return messageAndData;
+            } else if (meeting_ret.getState() == 2) {
+                MessageAndData messageAndData = MessageAndData.error().add("info","申请失败，原因：结束时间与已有的记录冲突");
+                messageAndData.add("meeting",meeting_ret);
+                return messageAndData;
+            }else if(meeting_ret.getState() == 3){
+                MessageAndData messageAndData = MessageAndData.error().add("info","申请失败，原因：开始与结束时间与已有的记录冲突");
+                messageAndData.add("meeting",meeting_ret);
+                return messageAndData;
+            }
+        }
+        else{
+            MessageAndData messageAndData = MessageAndData.error().add("info","抱歉，您输入的时间不合理");
+            return messageAndData;
+        }
+
+        MessageAndData messageAndData = MessageAndData.error();
+        return messageAndData;
     }
 
 

@@ -27,6 +27,8 @@
             <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议室查询</button></td>
             <td style="width: 100px;"></td>
             <td><button type="submit" class="btn btn-primary" style="width: 150px;">修改个人信息</button></td>
+            <td style="width: 100px;"></td>
+            <td><form action="Users/JumpToCancel"><button type="submit" class="btn btn-primary" style="width: 150px;">我的会议</button></form></td>
         </tr>
     </table>
 
@@ -64,24 +66,24 @@
                         <!--<div id="usernameTips"></div>-->
                         <div class="form-group">
                             <label for="ApplyOuid">申请人:</label>
-                            <input type="text" class="form-control" id="ApplyOuid" name="ouid" readonly="readonly"
+                            <input type="text" class="form-control" id="ApplyOuid" name="ouname" readonly="readonly"
                                    placeholder="请输入申请人姓名"/>
                         </div>
                         <!--<div id="usernameTips"></div>-->
                         <div class="form-group">
                             <label for="ApplyStartt">会议预计开始时间:</label>
-                            <input type="date" class="form-control" id="ApplyStartt" name="startt"
+                            <input type="datetime-local" class="form-control" id="ApplyStartt" name="startt"
                                    placeholder="请输入会议预计开始时间">
                         </div>
                         <div></div>
                         <div class="form-group">
                             <label for="ApplyFtime">会议预计结束时间</label>
-                            <input type="date" class="form-control" id="ApplyFtime" name="ftime"
+                            <input type="datetime-local" class="form-control" id="ApplyFtime" name="ftime"
                                    placeholder="请输入会议预计结束时间">
                         </div>
                         <div></div>
                         <div class="form-group">
-                            <button id="updateEmployBtn" type="button" class="btn btn-block btn-primary">申请</button>
+                            <button id="Apply_Btn" type="button" class="btn btn-block btn-primary">申请</button>
                         </div>
                     </form>
                 </div>
@@ -100,9 +102,9 @@
 
 
     <script>
-        var baseUrl = 'http://localhost:8080/SSM_war/users/';
+        var baseUrl = 'http://localhost:8080/SSM_war/Users';
 
-        function updateForm(room) {
+        function ApplyForm(room) {
             //打开模态框
             $("#updateModal").modal({backdrop: "static"});
             //将表单中原有数据清空
@@ -134,6 +136,7 @@
                     $("#display").empty();//先清空原始内容
                     let rooms = ret.dataZone.roomslist;
                     //开始循环遍历
+                    $("#Apply_Btn").click(ApplyMeeting);
                     $.each(rooms,function(index,item){
                         let commonId = item.rid
                         //遍历一次创建一个行
@@ -142,12 +145,13 @@
                         var rid = $('<td></td>').text(item.rid);
                         var config = $('<td></td>').text(item.config);
                         /*var applyTd = $('<td></td>').html('<a class="upBtn btn btn-info btn-sm" href="${baseUrl}opt/${commonId}">修改</a>');*/
-                        $(document).on("click", ".upBtn", updateForm);
+                        /*$(document).on("click", ".upBtn", ApplyForm);*/
                         //每次循环将创建的td追加到tr中
                         eTr.append(rid).append(config).append(`<td><a class="upBtn btn btn-info btn-sm" href="http://localhost:8080/SSM_war/Users/opt/${commonId}">申请</a></td>`);
                         //每次循环将创建的tr追加到tbody中
                         $("#display").append(eTr); // 每次修改前端页面都需要重启服务器太浪费时间， 可以考虑热部署
                     });
+                    $(document).on("click", ".upBtn", ApplyForm);
 
                 },
                 error:function (eno) {
@@ -155,7 +159,29 @@
                 }
             });
         });
+
+        function ApplyMeeting(){
+            //修改数据之前先进行数据校验
+            //校验通过向服务器发送请求
+            $.ajax({
+                url: baseUrl.concat('/opt'),
+                type: "PUT",
+                data: $("#updateModal form").serialize(),
+                success: function (result) {
+                    alert(result.message);
+                    $("#updateModal").modal("hide");//关闭模态框
+                    //gotoPage();//回到当前页面
+                },
+                error: function (result) {
+                    alert(result.message);
+                    $("#updateModal").modal("hide");//关闭模态框
+                    return false;
+                }
+            });
+        }
     </script>
+
+
 
     <!--该script已经无用，仅可用于浏览器后台控制台查看后台发送来的用户登录信息-->
     <script type="text/javascript">

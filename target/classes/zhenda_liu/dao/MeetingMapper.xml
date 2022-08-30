@@ -145,10 +145,10 @@
         #{ouid,jdbcType=INTEGER},
       </if>
       <if test="startt != null">
-        #{startt,jdbcType=TIMESTAMP},
+        date_format(#{startt,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%m:%d'),
       </if>
       <if test="ftime != null">
-        #{ftime,jdbcType=TIMESTAMP},
+        date_format(#{ftime,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%m:%d'),
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},

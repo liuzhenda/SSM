@@ -1,6 +1,7 @@
 package zhenda_liu.service;
 
 import zhenda_liu.domain.Department;
+import zhenda_liu.domain.Meeting;
 import zhenda_liu.domain.Room;
 import zhenda_liu.domain.Users;
 
@@ -25,6 +26,14 @@ public interface UserService {
     public List<Department> GetAllDepartments();
 
     public Users GetAllUserInfo(Users users);
+
+    public Meeting InsertIntoMeetings(Meeting meeting);
+
+    public int GetUidByUname(String uname);
+
+    public List<Meeting> GetMeetingsByUid(Users users);
+
+    public int DeleteMeetingByMid(int mid);
 
     //修改一个员工数据
 
