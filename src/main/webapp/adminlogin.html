@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理员登录</title>
+  <link rel="stylesheet" href="css/bootstrap.css" />
+</head>
+<div style="height: 200px;"></div>
+
+
+<body>
+
+<h4 align="center">登录界面</h4>
+<div>
+  <form action="admin/login">
+    <table border="0" cellspacing="" cellpadding="" align="center">
+      <tr style="height:100px;">
+        <td style="width: 80px; ;"><label for="aname" align="center">管理员名:</label></td>
+        <td><input type="text" class="form-control" placeholder="请输入您的管理员名" name="aname" id="aname" style="width: 400px;"></td>
+      </tr>
+
+      <tr>
+        <td><label for="apsd">密码:</label></td>
+        <td><input type="password" class="form-control" placeholder="请输入您的密码" name="apsd" id="apsd" style="width: 400px;"></td>
+      </tr>
+    </table>
+
+    <table border="0" cellspacing="" cellpadding="" align="center">
+      <tr>
+        <td style="width: 450px;">
+          <div class="form-group form-check" align="right">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox"> 记住密码
+            </label>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+
+    <table border="0" cellspacing="" cellpadding="" align="center">
+      <tr>
+        <td><button type="submit" class="btn btn-primary" style="width: 350px;">登录</button></td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<form action="admin/JumpToReigster">
+  <table align="center" style="height: 50px;">
+    <tr>
+      <td style="width: 500px;"></td>
+      <td><button style="width: 100px;margin-right: 20%; border: none;outline: none;background-color: white">跳转注册页面</button></td>
+    </tr>
+  </table>
+</form>
+
+
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+</body>
+</html>

@@ -1,9 +1,6 @@
 package zhenda_liu.test;
 //使用spring整合unit进行单元测试
-//还没写完不要改，这是我自己新建的文件夹
-//还没写完不要改，这是我自己新建的文件夹
-//还没写完不要改，这是我自己新建的文件夹
-//还没写完不要改，这是我自己新建的文件夹
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,8 +14,6 @@ public class ServiceUnitTest {
     public void testServiceRegNewAdmin(){
 
     }
+
+
 }
-//还没写完不要改，这是我自己新建的文件夹
-//还没写完不要改，这是我自己新建的文件夹
-//还没写完不要改，这是我自己新建的文件夹
-//还没写完不要改，这是我自己新建的文件夹
