@@ -27,12 +27,12 @@ public class AdminServiceImpl implements AdminService {
 
         List<Admin> admins = adminMapper.selectByExample(adminExample);
         if(admins.size() > 0){
-            System.out.println("存在此用户");
+            System.out.println("存在此管理员");
             return false;
         } else {
             //将信息插入到数据库
             int i = adminMapper.insertSelective(admin);
-            System.out.println("成功添加了" + i + "个 admin");
+            System.out.println("成功添加了" + i + "个 管理员");
             return false;
         }
     }
