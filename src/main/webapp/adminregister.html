@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+</head>
+<div style="height: 200px;"></div>
+
+<!--注册-->
+<body>
+
+
+<h4 align="center">管理员注册</h4>
+<div>
+    <form action="admin/register">
+        <table border="0" cellspacing="" cellpadding="" align="center">
+            <tr style="height: 18px;"></tr>
+            <tr>
+                <td style="width: 80px;"><label for="aname" align="center">管理员名:</label></td>
+                <td><input type="text" class="form-control" placeholder="请输入您的管理员名" name="aname" id="aname" style="width: 400px;"></td>
+            </tr>
+
+            <tr style="height: 18px;"></tr>
+
+            <tr>
+                <td><label for="apsd">密码:</label></td>
+                <td><input type="password" class="form-control" placeholder="请输入您的密码" name="apsd" id="apsd" style="width: 400px;"></td>
+            </tr>
+
+            <tr style="height: 20px;"></tr>
+        </table>
+
+        <table border="0" cellspacing="" cellpadding="" align="center">
+            <tr style="height: 18px;"></tr>
+            <tr>
+                <td><button type="submit" class="btn btn-primary" style="width: 350px;">注册</button></td>
+            </tr>
+        </table>
+
+    </form>
+
+</div>
+
+<form action="admin/JumpToLogin">
+    <table align="center" style="height: 50px;">
+        <tr>
+            <td style="width: 500px;"></td>
+            <td><button style="width: 150px;margin-right: 20%; border: none;outline: none;background-color: white">跳转登录页面</button></td>
+        </tr>
+    </table>
+</form>
+
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+</body>
+</html>

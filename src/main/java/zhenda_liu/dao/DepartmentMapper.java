@@ -27,4 +27,17 @@ public interface DepartmentMapper {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
+
+    Department getDepByName(String dname);
+
+    Integer adddepartment(String dname);
+
+    List<Department> getAllDeps();
+
+    Department getDepById(Integer did);
+
+    Integer deletedep(Integer did);
+
+    Integer updatedep(Integer did, String dname);
+
 }
