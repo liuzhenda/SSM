@@ -1,5 +1,7 @@
 package zhenda_liu.domain;
 
+
+//前端和meeting之间的中间实体类 方向由meeting到前端
 public class ShowMeeting {
 
     private Integer mid;

@@ -78,7 +78,7 @@
                 //将数据渲染到页面中
                 // $("#dis").text(ret.dataZone.emplist[0].ename);
                 $("#dname").empty();//先清空原始内容
-                $("#dname").append('<option value="null">---暂定---</option>')
+                $("#dname").append('<option value="0">---暂定---</option>')
                 let departments = ret.dataZone.departmentslist;
                 //开始循环遍历
                 $.each(departments,function(index,item){

@@ -1,6 +1,7 @@
 package zhenda_liu.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +55,11 @@ public class Meeting implements Serializable {
                 ", users=" + users +
                 ", mupdatetime=" + mupdatetime +
                 '}';
+    }
+
+    public String TimeToString(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return "该会议的开始时间:"+simpleDateFormat.format(startt)+"结束时间:"+simpleDateFormat.format(ftime);
     }
 
     @Override

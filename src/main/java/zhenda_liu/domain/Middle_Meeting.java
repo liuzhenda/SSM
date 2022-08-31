@@ -1,7 +1,7 @@
 package zhenda_liu.domain;
 
 import java.util.Date;
-
+//前端和meeting之间的中间实体类 方向由前端到meeting
 public class Middle_Meeting {
     private Integer mrid;
 

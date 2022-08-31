@@ -22,11 +22,12 @@
 <body>
 <table align="center">
   <tr>
-    <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议预定</button></td>
+    <!--当前页面按钮请使用class为btn btn-primary，其余界面使用btn btn-secondary 请记得同时修改cancel.html和users.html-->
+    <td><form action="Users/JumpToApply"><button type="submit" class="btn btn-secondary" style="width: 150px;">会议预定</button></form></td>
     <td style="width: 100px;"></td>
-    <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议室查询</button></td>
+    <td><button type="submit" class="btn btn-secondary" style="width: 150px;">会议室查询</button></td>
     <td style="width: 100px;"></td>
-    <td><button type="submit" class="btn btn-primary" style="width: 150px;">修改个人信息</button></td>
+    <td><button type="submit" class="btn btn-secondary" style="width: 150px;">修改个人信息</button></td>
     <td style="width: 100px;"></td>
     <td><form action="Users/JumpToCancel"><button type="submit" class="btn btn-primary" style="width: 150px;">我的会议</button></form></td>
   </tr>
@@ -57,15 +58,14 @@
 
   function CancelSingleRecord(meeting){
     //询问是否删除
-    if(!confirm("真的删除"))
+    if(!confirm("确认取消申请吗"))
       return false;
     $.ajax({
       url: meeting.target.href,
       type: "DELETE",
       success: function (result) {
-        // alert(result.message);
-        // alert(result.dataZone.num);
         alert(result.message);
+        refresh();
       },
       error: function (result) {
         alert(result.message);
@@ -74,20 +74,16 @@
     return false;
   }
 
-  //页面加载时
-  $(document).ready(function () {
-    //1 访问所有员工数据
+  function refresh(){
     $.ajax({
-      url:"Users/list_meeting",   //显示会议室信息
-      dataType:"json",
+      type: "GET",
+      url:"Users/list_meeting",
+      dataType: "json",
       success:function(ret){
         console.log(ret);
-        //将数据渲染到页面中
-        // $("#dis").text(ret.dataZone.emplist[0].ename);
         $("#display").empty();//先清空原始内容
         let meetings = ret.dataZone.meetinglist;
         //开始循环遍历
-        $("#Apply_Btn").click(ApplyMeeting);
         $.each(meetings,function(index,item){
           let commonId = item.mid
           //遍历一次创建一个行
@@ -98,8 +94,42 @@
           var startt = $('<td></td>').text(item.startt);
           var ftime = $('<td></td>').text(item.ftime);
           var state = $('<td></td>').text(item.state);
-          /*var applyTd = $('<td></td>').html('<a class="upBtn btn btn-info btn-sm" href="${baseUrl}opt/${commonId}">修改</a>');*/
-          /*$(document).on("click", ".upBtn", ApplyForm);*/
+          //每次循环将创建的td追加到tr中
+          eTr.append(mid).append(mrid).append(startt).append(ftime).append(state).append(`<td><a class="delBtn btn btn-danger btn-sm" href="http://localhost:8080/SSM_war/Meeting/opt/${commonId}">取消申请</a></td>`);
+          //每次循环将创建的tr追加到tbody中
+          $("#display").append(eTr); // 每次修改前端页面都需要重启服务器太浪费时间， 可以考虑热部署
+        });
+        $(document).on("click", ".delBtn", CancelSingleRecord);
+
+      },
+      error:function (eno) {
+        console.log(eno);
+      }
+    })
+
+  }
+
+  //页面加载时
+  $(document).ready(function () {
+    //1 访问所有员工数据
+    $.ajax({
+      url:"Users/list_meeting",   //显示会议室信息
+      dataType:"json",
+      success:function(ret){
+        console.log(ret);
+        $("#display").empty();//先清空原始内容
+        let meetings = ret.dataZone.meetinglist;
+        //开始循环遍历
+        $.each(meetings,function(index,item){
+          let commonId = item.mid
+          //遍历一次创建一个行
+          var eTr = $("<tr></tr>");
+          //依次构建单元格td
+          var mid = $('<td></td>').text(item.mid);
+          var mrid = $('<td></td>').text(item.mrid);
+          var startt = $('<td></td>').text(item.startt);
+          var ftime = $('<td></td>').text(item.ftime);
+          var state = $('<td></td>').text(item.state);
           //每次循环将创建的td追加到tr中
           eTr.append(mid).append(mrid).append(startt).append(ftime).append(state).append(`<td><a class="delBtn btn btn-danger btn-sm" href="http://localhost:8080/SSM_war/Meeting/opt/${commonId}">取消申请</a></td>`);
           //每次循环将创建的tr追加到tbody中
@@ -113,26 +143,6 @@
       }
     });
   });
-
-  function ApplyMeeting(){
-    //修改数据之前先进行数据校验
-    //校验通过向服务器发送请求
-    $.ajax({
-      url: baseUrl.concat('/opt'),
-      type: "PUT",
-      data: $("#updateModal form").serialize(),
-      success: function (result) {
-        alert(result.message);
-        $("#updateModal").modal("hide");//关闭模态框
-        //gotoPage();//回到当前页面
-      },
-      error: function (result) {
-        alert(result.message);
-        $("#updateModal").modal("hide");//关闭模态框
-        return false;
-      }
-    });
-  }
 </script>
 
 

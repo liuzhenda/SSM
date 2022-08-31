@@ -27,13 +27,15 @@ public interface UserService {
 
     public Users GetAllUserInfo(Users users);
 
-    public Meeting InsertIntoMeetings(Meeting meeting);
+    public int InsertIntoMeetings(Meeting meeting);
 
     public int GetUidByUname(String uname);
 
     public List<Meeting> GetMeetingsByUid(Users users);
 
     public int DeleteMeetingByMid(int mid);
+
+    public Meeting SelectMeetingByMid(int mid);
 
     //修改一个员工数据
 

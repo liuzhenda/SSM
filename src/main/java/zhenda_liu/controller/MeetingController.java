@@ -15,6 +15,8 @@ public class MeetingController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 该函数用于用户取消申请会议室*/
     @RequestMapping(value = "/opt/{ids}")
     @ResponseBody
     public MessageAndData FromIdGet(@PathVariable("ids")String ids){

@@ -22,13 +22,14 @@
 <body>
     <table align="center">
         <tr>
-            <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议预定</button></td>
+            <!--当前页面按钮请使用class为btn btn-primary，其余界面使用btn btn-secondary-->
+            <td><form action="Users/JumpToApply"><button class="btn btn-primary" style="width: 150px;">会议预定</button></form></td>
             <td style="width: 100px;"></td>
-            <td><button type="submit" class="btn btn-primary" style="width: 150px;">会议室查询</button></td>
+            <td><button type="submit" class="btn btn-secondary" style="width: 150px;">会议室查询</button></td>
             <td style="width: 100px;"></td>
-            <td><button type="submit" class="btn btn-primary" style="width: 150px;">修改个人信息</button></td>
+            <td><button type="submit" class="btn btn-secondary" style="width: 150px;">修改个人信息</button></td>
             <td style="width: 100px;"></td>
-            <td><form action="Users/JumpToCancel"><button type="submit" class="btn btn-primary" style="width: 150px;">我的会议</button></form></td>
+            <td><form action="Users/JumpToCancel"><button class="btn btn-secondary" style="width: 150px;">我的会议</button></form></td>
         </tr>
     </table>
 
@@ -132,7 +133,6 @@
                 success:function(ret){
                     console.log(ret);
                     //将数据渲染到页面中
-                    // $("#dis").text(ret.dataZone.emplist[0].ename);
                     $("#display").empty();//先清空原始内容
                     let rooms = ret.dataZone.roomslist;
                     //开始循环遍历
@@ -144,8 +144,6 @@
                         //依次构建单元格td
                         var rid = $('<td></td>').text(item.rid);
                         var config = $('<td></td>').text(item.config);
-                        /*var applyTd = $('<td></td>').html('<a class="upBtn btn btn-info btn-sm" href="${baseUrl}opt/${commonId}">修改</a>');*/
-                        /*$(document).on("click", ".upBtn", ApplyForm);*/
                         //每次循环将创建的td追加到tr中
                         eTr.append(rid).append(config).append(`<td><a class="upBtn btn btn-info btn-sm" href="http://localhost:8080/SSM_war/Users/opt/${commonId}">申请</a></td>`);
                         //每次循环将创建的tr追加到tbody中
@@ -168,7 +166,7 @@
                 type: "PUT",
                 data: $("#updateModal form").serialize(),
                 success: function (result) {
-                    alert(result.message);
+                    alert(result.dataZone.info);
                     $("#updateModal").modal("hide");//关闭模态框
                     //gotoPage();//回到当前页面
                 },

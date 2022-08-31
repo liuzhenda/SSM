@@ -67,6 +67,8 @@ public class UserServiceImpl implements UserService {
         return flag;
     }
 
+
+    //获得用户部门下的所有会议室信息
     @Override
     public List<Room> GetSelectRooms(Users users) {
         if(users.getUdid() == null){
@@ -87,12 +89,16 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+
+    //获得所有的部门信息
     @Override
     public List<Department> GetAllDepartments() {
         List<Department> departments = departmentMapper.selectByExample(null);
         return departments;
     }
 
+
+    //由不完整的user信息获取完整的user信息
     @Override
     public Users GetAllUserInfo(Users users) {
         UsersExample usersExample = new UsersExample();
@@ -105,6 +111,7 @@ public class UserServiceImpl implements UserService {
         return ret_users;
     }
 
+    //由Rid获取到相应完整的会议室信息
     @Override
     public Room GetSelectRoomsByRid(int rid) {
         RoomExample roomExample = new RoomExample();
@@ -115,8 +122,10 @@ public class UserServiceImpl implements UserService {
         return room;
     }
 
+
+    //插入会议室信息
     @Override
-    public Meeting InsertIntoMeetings(Meeting meeting){
+    public int InsertIntoMeetings(Meeting meeting){
         MeetingExample meetingExample = new MeetingExample();
         MeetingExample.Criteria criteria = meetingExample.createCriteria();
         criteria.andMridEqualTo(meeting.getMrid());
@@ -140,20 +149,18 @@ public class UserServiceImpl implements UserService {
                 break;
         }
         if(flag == 0){
-            System.out.println("this is insert");
-            System.out.println(meeting);
-            System.out.println(meeting.getFtime().getClass().toString());
-            System.out.println("meeting==="+meeting);
             int sucess = meetingMapper.insertSelective(meeting);
             System.out.println("插入了"+sucess);
         }
-        System.out.println("1111");
-        Meeting meeting_ret = meetings.get(rem);
-        System.out.println("返回meeting_ret");
-        System.out.println(meeting_ret);
-        return meeting_ret;
+        //这块之前想返回meeting对象，但是每次都报错，所以这里改为了返回int类型
+        //Meeting meeting_ret = meetings.get(rem);
+        //System.out.println(meeting_ret);
+        flag = meetings.get(rem).getMid()*10+flag; //flag同时存储mid信息和flag信息 使用该函数是应当注意对该数据进行处理
+        return flag;
     }
 
+
+    //通过uname获取Uid
     @Override
     public int GetUidByUname(String uname) {
         UsersExample usersExample = new UsersExample();
@@ -164,6 +171,7 @@ public class UserServiceImpl implements UserService {
         return userses.get(0).getUid();
     }
 
+    //获取用户的会议信息
     @Override
     public List<Meeting> GetMeetingsByUid(Users users) {
         MeetingExample meetingExample = new MeetingExample();
@@ -174,6 +182,7 @@ public class UserServiceImpl implements UserService {
         return meetings;
     }
 
+    //通过会议号删除会议
     @Override
     public int DeleteMeetingByMid(int mid) {
         MeetingExample meetingExample = new MeetingExample();
@@ -182,5 +191,16 @@ public class UserServiceImpl implements UserService {
 
         meetingMapper.deleteByExample(meetingExample);
         return 0;
+    }
+
+    //通过会议号返回完整的会议信息
+    @Override
+    public Meeting SelectMeetingByMid(int mid) {
+        MeetingExample meetingExample = new MeetingExample();
+        MeetingExample.Criteria criteria = meetingExample.createCriteria();
+        criteria.andMidEqualTo(mid);
+
+        List<Meeting> meetings = meetingMapper.selectByExample(meetingExample);
+        return meetings.get(0);
     }
 }
